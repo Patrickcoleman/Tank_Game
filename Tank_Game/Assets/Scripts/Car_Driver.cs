@@ -58,7 +58,8 @@ public class Car_Driver : NetworkBehaviour
 
         // Debug.Log(Input.mousePosition);
         //
-        currentSpeed = Mathf.Round((currentSpeed * 100) * 0.95f)/100;
+        //currentSpeed = Mathf.Round((currentSpeed * 50000 * Time.deltaTime) * 0.95f)/100;
+        currentSpeed = 20;
         var rotationVector = Tank_Skin.transform.rotation.eulerAngles;
         this.transform.position = this.transform.position + new Vector3(Mathf.Sin(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed * 0.05f,-Mathf.Cos(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed * 0.05f,0);
         

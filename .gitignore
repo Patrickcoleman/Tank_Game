@@ -3,14 +3,15 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
-/Tank_Game/Library/*
+/Tank_Game/[Ll]ibrary/
+/Tank_Game/[Tt]emp/
+/Tank_Game/[Oo]bj/
+/Tank_Game/[Bb]uild/
+/Tank_Game/[Bb]uilds/
+/Tank_Game/Logs/
+/Tank_Game/[Uu]ser[Ss]ettings/
+/Tank_Game_clone_0/*
+Tank_Game\UserSettings\
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
