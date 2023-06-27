@@ -8,7 +8,7 @@ public class Car_Driver : NetworkBehaviour
     public GameObject Tank_Skin;
     public GameObject Gun_Skin;
     public float currentSpeed = 0;
-    public float movespeed = 10;
+    public float movespeed = 1;
     public float turnspeed = 100;
     private Plane _background = new(Vector3.back, Vector3.zero);
     private Camera _cam;
@@ -60,17 +60,17 @@ public class Car_Driver : NetworkBehaviour
 
         // Debug.Log(Input.mousePosition);
         //
-        currentSpeed = Mathf.Round((currentSpeed * 100 * Time.deltaTime) * 0.95f)/100;
+        currentSpeed -= currentSpeed * Time.deltaTime * 0.4f;
         //currentSpeed = 0;
         var rotationVector = Tank_Skin.transform.rotation.eulerAngles;
         this.transform.position = this.transform.position + new Vector3(Mathf.Sin(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,-Mathf.Cos(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,0);
         
         if(Input.GetKey(KeyCode.UpArrow)){
-            currentSpeed += movespeed;
+            currentSpeed += movespeed * Time.deltaTime;
         }
 
         if(Input.GetKey(KeyCode.DownArrow)){
-            currentSpeed -= movespeed;
+            currentSpeed -= movespeed * Time.deltaTime;
         }
 
         if(Input.GetKey(KeyCode.LeftArrow)){
