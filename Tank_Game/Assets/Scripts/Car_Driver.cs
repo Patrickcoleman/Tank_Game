@@ -38,8 +38,6 @@ public class Car_Driver : NetworkBehaviour
 
         //Update gun direction
         mouse_pos = Input.mousePosition;
-            // mouse_pos.z = -20;
-            //Debug.Log(Input.mousePosition);
             object_pos = Camera.main.WorldToScreenPoint(transform.position);
             mouse_pos.x = object_pos.x - mouse_pos.x;
             mouse_pos.y = object_pos.y - mouse_pos.y;
@@ -47,24 +45,14 @@ public class Car_Driver : NetworkBehaviour
             Gun_Skin.transform.rotation = Quaternion.RotateTowards(Gun_Skin.transform.rotation, Quaternion.Euler(0, 0, angle), 3);;
 
 
-        // // Update rotation of Gun
-        // var ray = _cam.ScreenPointToRay(Input.mousePosition);
-        // if (_background.Raycast(ray, out var enter)) {
-        //     var hitPoint = ray.GetPoint(enter);
-
-        //     var dir = hitPoint - transform.position;
-        //     var rot = Quaternion.LookRotation(dir);
-
-        //     Gun_Skin.transform.rotation = Quaternion.RotateTowards(Gun_Skin.transform.rotation, rot, 450 * Time.deltaTime);
-        // }
-
-        // Debug.Log(Input.mousePosition);
-        //
+        // slows down current speed by a factor of 0.4 every second
         currentSpeed -= currentSpeed * Time.deltaTime * 0.4f;
-        //currentSpeed = 0;
+
+        //Moves the tank forward in the direction it is facing by its current speed
         var rotationVector = Tank_Skin.transform.rotation.eulerAngles;
         this.transform.position = this.transform.position + new Vector3(Mathf.Sin(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,-Mathf.Cos(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,0);
         
+
         if(Input.GetKey(KeyCode.UpArrow)){
             currentSpeed += movespeed * Time.deltaTime;
         }
