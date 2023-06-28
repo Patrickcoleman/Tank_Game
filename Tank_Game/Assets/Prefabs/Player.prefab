@@ -153,9 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tank_Skin: {fileID: 4811053887114078860}
   Gun_Skin: {fileID: 6618182529727628099}
+  Bullet: {fileID: 1742972471261441711, guid: 9973e8f9e78873f438f964309df65b9d, type: 3}
   currentSpeed: 0
-  movespeed: 10
-  turnspeed: 100
 --- !u!114 &1331800419493637526
 MonoBehaviour:
   m_ObjectHideFlags: 0
