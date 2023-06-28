@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 1331800419493637526}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,6 +154,8 @@ MonoBehaviour:
   Tank_Skin: {fileID: 4811053887114078860}
   Gun_Skin: {fileID: 6618182529727628099}
   currentSpeed: 0
+  movespeed: 10
+  turnspeed: 100
 --- !u!114 &1331800419493637526
 MonoBehaviour:
   m_ObjectHideFlags: 0
