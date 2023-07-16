@@ -12,10 +12,15 @@ public class Bullet_Mover : MonoBehaviour
         
     }
 
+    public void Init(Vector3 InputDir) {
+        dir = InputDir;
+    }
+
     // Update is called once per frame
     void Update()
-    {
-        this.transform.position = this.transform.position + new Vector3(Mathf.Sin(dir.z * Mathf.PI/180) * Time.deltaTime * movespeed,-Mathf.Cos(dir.z * Mathf.PI/180) * Time.deltaTime * movespeed,0);
+    {   
+        this.transform.position = this.transform.position - dir * Time.deltaTime * movespeed;
+        // this.transform.position = this.transform.position + new Vector3(Mathf.Sin(dir.z * Mathf.PI/180) * Time.deltaTime * movespeed,-Mathf.Cos(dir.z * Mathf.PI/180) * Time.deltaTime * movespeed,0);
 
     }
 }

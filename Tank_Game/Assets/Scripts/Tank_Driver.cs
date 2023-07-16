@@ -5,9 +5,10 @@ using Unity.Netcode;
 
 public class Tank_Driver : NetworkBehaviour
 {
-    public GameObject Tank_Skin;
-    public GameObject Gun_Skin;
-    public GameObject Bullet;
+    [SerializeField] private GameObject Tank_Skin;
+    [SerializeField] private GameObject Gun_Skin;
+    [SerializeField] private GameObject BarrelTip;
+    [SerializeField] private GameObject Bullet;
     public float currentSpeed = 0;
     private float movespeed = 1;
     private float turnspeed = 70;
@@ -24,19 +25,32 @@ public class Tank_Driver : NetworkBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-
+    {   
+        
     }
     public override void OnNetworkSpawn(){
     }
 
     // Update is called once per frame
 
-    private void ShootBullet(Vector3 vector) {
+    private void Shoot(Vector3 vector) {
         GameObject newBullet = Instantiate(Bullet);
-        newBullet.transform.position = transform.position;
+        newBullet.transform.position = BarrelTip.transform.position;
         newBullet.GetComponent<Bullet_Mover>().dir = vector;
     }
+
+    [ServerRpc]
+    private void RequestShootServerRpc(Vector3 dir) {
+        FireClientRpc(dir);
+    }
+
+    [ClientRpc]
+    private void FireClientRpc(Vector3 dir) {
+        if (!IsOwner){
+            Shoot(dir);
+        }
+    }
+
 
     void Update()
     {
@@ -58,7 +72,9 @@ public class Tank_Driver : NetworkBehaviour
 
 
         if (Input.GetMouseButtonDown(0)){
-            ShootBullet(Gun_Skin.transform.rotation.eulerAngles);
+            var dir = Gun_Skin.transform.up;
+            RequestShootServerRpc(dir);
+            Shoot(dir);
         }
 
 

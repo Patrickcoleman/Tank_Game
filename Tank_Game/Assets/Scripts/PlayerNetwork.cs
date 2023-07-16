@@ -4,18 +4,15 @@ using UnityEngine;
 using Unity.Netcode;
 
 public class PlayerNetwork : NetworkBehaviour {
-    private readonly NetworkVariable<PlayerNetworkData> _netState = new(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<PlayerNetworkData> _netState = new(writePerm: NetworkVariableWritePermission.Owner);
     private GameObject TankTop_Pivot;
     private GameObject Tank_Base;
-    // private readonly NetworkVariable<Quaternion> _netRot = new(writePerm: NetworkVariableWritePermission.Owner);
-    // private NetworkVariable<Vector3> _netPos = new NetworkVariable<Vector3>();
-    // private NetworkVariable<Quaternion> _netRot = new NetworkVariable<Quaternion>();
 
     // Start is called before the first frame update
     void Start()
     {
         TankTop_Pivot = this.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        Tank_Base = this.gameObject.transform.GetChild(0).gameObject;
+        Tank_Base = this.gameObject;
     }
 
     // Update is called once per frame
@@ -31,18 +28,8 @@ public class PlayerNetwork : NetworkBehaviour {
         else {
             Tank_Base.transform.position = _netState.Value.Position;
             Tank_Base.transform.rotation = Quaternion.Euler(_netState.Value.Rotation);
-            // Debug.Log(Quaternion.Euler(_netState.Value.GunRotation));
-            // Debug.Log(TankTop_Pivot.transform.rotation);
             TankTop_Pivot.transform.rotation = Quaternion.Euler(_netState.Value.GunRotation);
         }
-        // if(IsOwner){
-        //     _netPos.Value = transform.position;
-        //     _netRot.Value = transform.rotation;
-
-        // }else{
-        //     transform.position = _netPos.Value;
-        //     transform.rotation = _netRot.Value;
-        // }
     }
 
     struct PlayerNetworkData : INetworkSerializable{
