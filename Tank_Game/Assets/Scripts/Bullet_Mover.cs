@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet_Mover : MonoBehaviour
 {
     public Vector3 dir;
+    public GameObject _creator;
     private float movespeed = 3;
     // Start is called before the first frame update
     void Start()
@@ -12,8 +13,9 @@ public class Bullet_Mover : MonoBehaviour
         
     }
 
-    public void Init(Vector3 InputDir) {
+    public void Init(Vector3 InputDir, GameObject creator) {
         dir = InputDir;
+        _creator = creator;
     }
 
     // Update is called once per frame

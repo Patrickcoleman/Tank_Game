@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1767633849156605943}
   - component: {fileID: 2970462315475854517}
   - component: {fileID: 6564742807277490065}
-  - component: {fileID: -8484848202687582951}
   - component: {fileID: 4524889086752279453}
   - component: {fileID: 6054016344453469911}
   m_Layer: 0
@@ -121,18 +120,6 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-8484848202687582951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742972471261441711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33e69641757ea39428e4fbe233caf056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &4524889086752279453
 CircleCollider2D:
   m_ObjectHideFlags: 0

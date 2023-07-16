@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class Player_Collider : MonoBehaviour
 {
-    void OnTriggerEnter(Collider other){
-        Debug.Log("HIT");
-        if (other.tag == "Player"){
+    void OnTriggerEnter2D(Collider2D other){
+        if (other.tag == "Missile" && other.gameObject.GetComponent<Bullet_Mover>()._creator != this.gameObject){
             Debug.Log("ENTER");
         }
     }
 
-    void OnTriggerStay(Collider other){
-        if (other.tag == "Player"){
+    void OnTriggerStay2D(Collider2D other){
+        if (other.tag == "Missile" && other.gameObject.GetComponent<Bullet_Mover>()._creator != this.gameObject){
             Debug.Log("STAY");
         }
     }
 
-    void OnTriggerExit(Collider other){
-        if (other.tag == "Player"){
+    void OnTriggerExit2D(Collider2D other){
+        if (other.tag == "Missile" && other.gameObject.GetComponent<Bullet_Mover>()._creator != this.gameObject){
             Debug.Log("EXIT");
         }
     }

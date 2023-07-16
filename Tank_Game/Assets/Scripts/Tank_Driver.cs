@@ -34,9 +34,8 @@ public class Tank_Driver : NetworkBehaviour
     // Update is called once per frame
 
     private void Shoot(Vector3 vector) {
-        GameObject newBullet = Instantiate(Bullet);
-        newBullet.transform.position = BarrelTip.transform.position;
-        newBullet.GetComponent<Bullet_Mover>().dir = vector;
+        GameObject newBullet = Instantiate(Bullet,BarrelTip.transform.position,Quaternion.identity);
+        newBullet.GetComponent<Bullet_Mover>().Init(vector,this.gameObject);
     }
 
     [ServerRpc]
