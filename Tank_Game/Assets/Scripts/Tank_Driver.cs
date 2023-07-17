@@ -9,8 +9,8 @@ public class Tank_Driver : NetworkBehaviour
     [SerializeField] private GameObject Gun_Skin;
     [SerializeField] private GameObject BarrelTip;
     [SerializeField] private GameObject Bullet;
+
     private Rigidbody2D _tankrigidbody;
-    public float currentSpeed = 0;
     private float movespeed = 1;
     private float turnspeed = 70;
     private Plane _background = new(Vector3.back, Vector3.zero);
@@ -19,22 +19,12 @@ public class Tank_Driver : NetworkBehaviour
     private Vector3 mouse_pos;
     private Vector3 object_pos;
     private float angle;
+    private bool lastDirFwd = true;
 
     private void Awake() {
         _cam = Camera.main;
         _tankrigidbody = GetComponent<Rigidbody2D>();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {   
-        
-    }
-
-    public override void OnNetworkSpawn(){
-    }
-
-    // Update is called once per frame
 
     private void Shoot(Vector3 vector) {
         GameObject newBullet = Instantiate(Bullet,BarrelTip.transform.position,Quaternion.identity);
@@ -53,60 +43,57 @@ public class Tank_Driver : NetworkBehaviour
         }
     }
 
+    private bool AmIMovingForward(){
+        bool xsame = _tankrigidbody.velocity.x * gameObject.transform.up.x > 0 ? true : false;
+        bool ysame = _tankrigidbody.velocity.y * gameObject.transform.up.y > 0 ? true : false;
+        if (xsame & ysame){
+            lastDirFwd = true;
+        }else if (!xsame & !ysame){
+            lastDirFwd = false;
+        }
+        return lastDirFwd;
+    }
 
     void Update()
     {
         // Don't change anything for other tanks
         if(!IsOwner) return;
 
-        
-
-        //Update gun direction
+        //Update gun direction toward mouse position
         mouse_pos = Input.mousePosition;
         object_pos = Camera.main.WorldToScreenPoint(transform.position);
         mouse_pos.x = object_pos.x - mouse_pos.x;
         mouse_pos.y = object_pos.y - mouse_pos.y;
         angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
         Gun_Skin.transform.rotation = Quaternion.RotateTowards(Gun_Skin.transform.rotation, Quaternion.Euler(0, 0, angle), 3);;
-        //Debug.Log(angle);
-        
-        
 
-
+        //On click, shoot a bullet
         if (Input.GetMouseButtonDown(0)){
             var dir = Gun_Skin.transform.up;
             RequestShootServerRpc(dir);
             Shoot(dir);
         }
 
-
-
-        // slows down current speed by a factor of 0.4 every second
-        //currentSpeed -= currentSpeed * Time.deltaTime * 0.4f;
-
-        //Moves the tank forward in the direction it is facing by its current speed
-        var rotationVector = Tank_Skin.transform.rotation.eulerAngles;
-        //this.transform.position = this.transform.position + new Vector3(Mathf.Sin(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,-Mathf.Cos(rotationVector.z * Mathf.PI/180) * Time.deltaTime * currentSpeed,0);
-        //Debug.Log(rotationVector);
-
         if(Input.GetKey(KeyCode.UpArrow) | Input.GetKey(KeyCode.W)){
-            _tankrigidbody.AddForce(-transform.up * 10f);
+            _tankrigidbody.AddForce(transform.up * 10f);
             //currentSpeed += movespeed * Time.deltaTime;
         }
 
         if(Input.GetKey(KeyCode.DownArrow) | Input.GetKey(KeyCode.S)){
-            _tankrigidbody.AddForce(transform.up * 10f);
+            _tankrigidbody.AddForce(-transform.up * 10f);
             //currentSpeed -= movespeed * Time.deltaTime;
         }
 
         if(Input.GetKey(KeyCode.LeftArrow) | Input.GetKey(KeyCode.A)){
-            rotationVector.z += Time.deltaTime * turnspeed;
-            Tank_Skin.transform.rotation = Quaternion.Euler(rotationVector);
+            Vector3 velocity = _tankrigidbody.velocity;
+            transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * turnspeed, Space.World);
+            _tankrigidbody.velocity = transform.up * velocity.magnitude * (AmIMovingForward() ? 1 : -1);
         }
 
         if(Input.GetKey(KeyCode.RightArrow) | Input.GetKey(KeyCode.D)){
-            rotationVector.z -= Time.deltaTime * turnspeed;
-            Tank_Skin.transform.rotation = Quaternion.Euler(rotationVector);
+            Vector3 velocity = _tankrigidbody.velocity;
+            transform.Rotate(new Vector3(0, 0, -1) * Time.deltaTime * turnspeed, Space.World);
+            _tankrigidbody.velocity = transform.up * velocity.magnitude * (AmIMovingForward() ? 1 : -1);
         }
     }
 }
